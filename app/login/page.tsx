@@ -1,16 +1,34 @@
 'use client';
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "@/lib/firebase"
-
+import { auth, saveNewUser } from "@/lib/firebase"
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function Page() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false);
 
+    const router = useRouter();
 
     async function handleLogin() {
-        return signInWithEmailAndPassword(auth, email, password);
+        setLoading(true);
+
+        try {
+            await signInWithEmailAndPassword(auth, email, password);
+            router.push("/")
+
+        } catch (error) {
+            console.log(error);
+            console.log("Error logging in.")
+        }
+        
+        setLoading(false);
+
+    }
+
+    function handleSignUp() {
+        router.push("/sign-up")
     }
 
     return (<div>
@@ -36,6 +54,12 @@ export default function Page() {
 
         <div></div>
 
-        <button onClick={handleLogin}>login</button>
+        <button onClick={handleLogin} disabled={loading}>
+            {loading ? "Logging in..." : "login"}
+        </button>
+
+        <button onClick={handleSignUp} disabled={loading}>
+            SignUp
+        </button>
     </div>)
 }

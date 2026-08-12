@@ -1,16 +1,29 @@
 'use client';
 import { auth, signUpNewUser } from "@/lib/firebase"
-
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function Page() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [userName, setUserName] = useState("")
+    const [userName, setUserName] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
 
+
+    const router = useRouter();
 
     async function handleSignUp() {
-        return signUpNewUser(userName, email, password);
+        setLoading(true);
+        setError("");
+
+        try {
+            signUpNewUser(userName, email, password);
+            router.push("/");
+        } catch (error) {
+            setError("Invalid Password or Email");
+        }
+        
     }
 
     return (
@@ -47,7 +60,11 @@ export default function Page() {
 
         <div></div>
 
-        <button onClick={handleSignUp}>signUp</button>
+        {error && <p style={{ color: "red" }}>{error}</p>}
+
+        <button onClick={handleSignUp} disabled={loading}>
+            {loading? "Signing Up..." : "SignUp"}
+        </button>
     </div>
     )
 }

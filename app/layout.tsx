@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar"
 import "./global.css"
+import { AuthProvider } from "@/context/AuthContext"
 
 export default function RootLayout({
   children,
@@ -9,8 +10,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body suppressHydrationWarning>
-        <Navbar/>
-        {children}
+        <AuthProvider>
+          <Navbar/>
+          {children}
+        </AuthProvider>
       </body>
     </html>
   )
