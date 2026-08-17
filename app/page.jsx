@@ -7,14 +7,13 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import  ActivityCard  from "@/components/ActivityCard"
 import CreateActivityModal from "@/components/CreateActivityModal"
+import ActivityList from "@/components/ActivityList"
 
 export default function Page() {
     const { user, loading } = useAuth();
     const router = useRouter();
 
     const [isCreateActivityModalOpen, setIsCreateActivityModalOpen] = useState(false);
-
-    
 
  
     useEffect(() => {
@@ -36,8 +35,9 @@ export default function Page() {
             <h1>Home</h1>
             <p>UserID: {user.uid}</p>
            
-
             <div></div>
+
+            <ActivityList/>
             
             <button onClick={() => setIsCreateActivityModalOpen(true)}>Create new activity</button>
 
