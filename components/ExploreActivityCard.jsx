@@ -1,4 +1,4 @@
-export default function ActivityCard({
+export default function ExploreActivityCard({
   title, description, createdDate, participantCount, participants, location,
 }) {
   return (
@@ -6,6 +6,7 @@ export default function ActivityCard({
       <header className="activity-card-header">
         <h3 className="activity-card-title">{title}</h3>
       
+        
         <span className="activity-card-badge">
           👥 {participantCount}
         </span>
@@ -18,6 +19,8 @@ export default function ActivityCard({
         <li>📍 {location}</li>
         <li>🗓 {createdDate}</li>
       </ul>
+
+      <button type="button" className="activity-card-join-button">Join</button>
     </article>
   );
 }

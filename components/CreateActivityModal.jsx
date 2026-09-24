@@ -8,13 +8,16 @@ import { useFriends } from "@/hooks/useFriends";
 
 
 export default function CreateActivityModal({ onClose }) {
+    const {user} = useAuth();
+
     const [title, setTitle] = useState("No Title");
     const [description, setDescription] = useState("No Description");
     const [date, setDate] = useState("No Date");
     const [participantCount, setParticipantCount] = useState("1");
-    const [activityLoaction, setActivityLocation] = useState("No Location");
+    const [participants, setParticipants] = useState([user?.uid]);
+    const [activityLocation, setActivityLocation] = useState("No Location");
 
-    const {user} = useAuth();
+    
     //const { profile } = useUserProfile(user?.uid);
     //const { friends, loading: friendsLoading} = useFriends(profile?.friendList);
 
@@ -25,7 +28,7 @@ export default function CreateActivityModal({ onClose }) {
   }
 
     function handleCreate() {
-      saveNewActivity(title, description, date ,participantCount, activityLoaction, user.uid);
+      saveNewActivity(title, description, date ,participantCount, participants, activityLocation, user.uid);
 
       onClose();
     }
