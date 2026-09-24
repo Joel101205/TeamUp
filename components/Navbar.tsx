@@ -18,6 +18,7 @@ export default function Navbar() {
         <div>
             <nav>
             <Link href="/" scroll={false}>Home</Link>
+            <Link href="/explore" scroll={false}>Explore</Link>
             <Link href="/profile" scroll={false}>Profile</Link>
              <button onClick={logout} disabled={(user==null)}>SignOut</button>
             

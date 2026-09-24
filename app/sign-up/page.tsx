@@ -1,7 +1,8 @@
 'use client';
+import { useAuth } from "@/context/AuthContext";
 import { auth, signUpNewUser } from "@/lib/firebase"
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Page() {
     const [email, setEmail] = useState("");
@@ -9,21 +10,22 @@ export default function Page() {
     const [userName, setUserName] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
-
-
+    
+    const { user } = useAuth();
     const router = useRouter();
 
-    async function handleSignUp() {
-        setLoading(true);
-        setError("");
-
-        try {
-            signUpNewUser(userName, email, password);
-            router.push("/");
-        } catch (error) {
-            setError("Invalid Password or Email");
+    useEffect(() => {
+        if (user) {
+            router.push("/")
         }
-        
+    }, [user, router]);
+
+    async function handleSignUp() {
+        signUpNewUser(userName, email, password);
+    }
+
+    async function handleBack() {
+        router.push("/login")
     }
 
     return (
@@ -64,6 +66,10 @@ export default function Page() {
 
         <button onClick={handleSignUp} disabled={loading}>
             {loading? "Signing Up..." : "SignUp"}
+        </button>
+
+        <button onClick={handleBack} disabled={loading}>
+            Back
         </button>
     </div>
     )
