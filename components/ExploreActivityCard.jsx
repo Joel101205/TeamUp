@@ -1,6 +1,35 @@
+import { useState, useEffect } from "react";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { db } from "@/lib/firebase";
+
+
 export default function ExploreActivityCard({
-  title, description, createdDate, participantCount, participants, location,
+  title, description, createdDate, participantCount, participantsIds, location,
 }) {
+
+  const [participants, setParticipants] = useState([]);
+
+  useEffect(() => {
+
+    async function fetchParticipants() {
+      if (!participantsIds || participantsIds.length === 0) {
+        setParticipants([]);
+        return;
+      }
+
+      const q = query(collection(db, "users"), where("userId", "in", participantsIds));
+      const snapshot = await getDocs(q);
+      setParticipants(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+
+    }
+    
+
+    fetchParticipants();
+
+
+  }, [participantsIds]); 
+
+
   return (
     <article className="activity-card">
       <header className="activity-card-header">
@@ -8,12 +37,12 @@ export default function ExploreActivityCard({
       
         
         <span className="activity-card-badge">
-          👥 {participantCount}
+          👥 {participants.length}/{participantCount}
         </span>
       </header>
 
       <p className="activity-card-description">{description}</p>
-      <p className="activity-card-participants">{participants.join(", ")}</p>
+      <p className="activity-card-participants">{participants.map((p) => p.userName).join(", ")}</p>
 
       <ul className="activity-card-meta">
         <li>📍 {location}</li>

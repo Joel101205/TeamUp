@@ -21,7 +21,7 @@ export default function ActivityList() {
              description={a.description}
             createdDate={a.createdDate}
             participantCount={a.participantCount}
-            participants={a.participants}
+            participantsIds={a.participants}
             location={a.location}
           />
             ))}
