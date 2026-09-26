@@ -5,17 +5,21 @@ import { useAuth } from "@/context/AuthContext"
 export default function Page() {
     const {user, loading} = useAuth();
 
+    if (loading) return <div className="page-loading">Loading...</div>;
 
-    if (loading) return <div>Loading...</div>;
-
-    if (!user) return <p>not logged in</p>;
+    if (!user) return <p className="page-loading">Not logged in</p>;
 
     return (
-        <div>
-            <h1>User Profile</h1>
-            <p>UserID: {user.uid}</p>
-            <p>UserName: {user.email}</p>
+        <div className="profile-page">
+            <header className="profile-page-header">
+                <div className="profile-avatar">
+                    {user.email?.[0]?.toUpperCase()}
+                </div>
+                <div>
+                    <h1>{user.email}</h1>
+                    <p className="profile-page-uid">ID: {user.uid}</p>
+                </div>
+            </header>
         </div>
-        
     )
 }
