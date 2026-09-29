@@ -14,6 +14,7 @@ export default function ExploreActivityList() {
             {activities.map((a) => (
                 <ExploreActivityCard
                     key={a.id}
+                    id={a.id}
                     title={a.title}
                     description={a.description}
                     createdDate={a.createdDate}

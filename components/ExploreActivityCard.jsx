@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import { collection, query, where, getDocs } from "firebase/firestore";
-import { db } from "@/lib/firebase";
-
+import { db, addParticipantToActivity } from "@/lib/firebase";
+import { useAuth } from "@/context/AuthContext"
 
 export default function ExploreActivityCard({
-  title, description, createdDate, participantCount, participantsIds, location,
+  id, title, description, createdDate, participantCount, participantsIds, location,
 }) {
 
   const [participants, setParticipants] = useState([]);
+  const { user, loading } = useAuth();
 
   useEffect(() => {
 
@@ -29,6 +30,18 @@ export default function ExploreActivityCard({
 
   }, [participantsIds]); 
 
+  function handleJoin() {
+    if (participants.includes(user.uid)) {
+      console.log(`User ${user.uid} is already a participant of activity: ${title}`);
+      return;
+    }
+
+    addParticipantToActivity(id, user.uid);
+
+
+    console.log(`Joining activity: ${title}`);
+  }
+
 
   return (
     <article className="activity-card">
@@ -49,7 +62,9 @@ export default function ExploreActivityCard({
         <li>🗓 {createdDate}</li>
       </ul>
 
-      <button type="button" className="activity-card-join-button">Join</button>
+      <button type="button" className="activity-card-join-button" onClick={handleJoin}>
+        Join
+      </button>
     </article>
   );
 }
