@@ -20,7 +20,7 @@ export default function Navbar() {
             <Link href="/" scroll={false}>Home</Link>
             <Link href="/explore" scroll={false}>Explore</Link>
             <Link href="/profile" scroll={false}>Profile</Link>
-             <button onClick={logout} disabled={(user==null)}>SignOut</button>
+             <button onClick={logout} hidden={user==null} disabled={(user==null)}>SignOut</button>
             
             </nav>
         </div>

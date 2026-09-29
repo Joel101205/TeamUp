@@ -10,7 +10,7 @@ export default function Page() {
     const [userName, setUserName] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
-    
+
     const { user } = useAuth();
     const router = useRouter();
 
@@ -29,48 +29,55 @@ export default function Page() {
     }
 
     return (
-    <div>
-        <h1>SignUp</h1>
+        <div className="auth-page">
+            <form className="auth-card" onSubmit={(e) => { e.preventDefault(); handleSignUp(); }}>
+                <h1 className="auth-title">Create an account</h1>
 
-        <label htmlFor="userName">User Name:</label>
-        <input 
-            id="userName" 
-            type="text" 
-            autoComplete="off"
-            onChange={(e) => setUserName(e.target.value)}
-        />
+                <div className="auth-field">
+                    <label htmlFor="userName">User Name</label>
+                    <input
+                        id="userName"
+                        type="text"
+                        autoComplete="off"
+                        onChange={(e) => setUserName(e.target.value)}
+                    />
+                </div>
 
-        <div></div>
+                <div className="auth-field">
+                    <label htmlFor="email">Email</label>
+                    <input
+                        id="email"
+                        type="text"
+                        autoComplete="off"
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                </div>
 
-        <label htmlFor="email">Email:</label>
-        <input 
-            id="email" 
-            type="text" 
-            autoComplete="off"
-            onChange={(e) => setEmail(e.target.value)}
-        />
+                <div className="auth-field">
+                    <label htmlFor="password">Password</label>
+                    <input
+                        id="password"
+                        type="password"
+                        autoComplete="off"
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                </div>
 
-        <div></div>
+                {error && <p className="auth-error">{error}</p>}
 
-        <label htmlFor="password">Password:</label>
-        <input 
-            id="password" 
-            type="password" 
-            autoComplete="off"
-            onChange={(e) => setPassword(e.target.value)}
-        />
+                <button type="submit" className="auth-submit" disabled={loading}>
+                    {loading ? "Signing up..." : "Sign up"}
+                </button>
 
-        <div></div>
-
-        {error && <p style={{ color: "red" }}>{error}</p>}
-
-        <button onClick={handleSignUp} disabled={loading}>
-            {loading? "Signing Up..." : "SignUp"}
-        </button>
-
-        <button onClick={handleBack} disabled={loading}>
-            Back
-        </button>
-    </div>
+                <button
+                    type="button"
+                    className="auth-secondary"
+                    onClick={handleBack}
+                    disabled={loading}
+                >
+                    Already have an account? Log in
+                </button>
+            </form>
+        </div>
     )
 }

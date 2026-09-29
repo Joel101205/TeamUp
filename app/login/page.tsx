@@ -22,44 +22,52 @@ export default function Page() {
             console.log(error);
             console.log("Error logging in.")
         }
-        
-        setLoading(false);
 
+        setLoading(false);
     }
 
     function handleSignUp() {
         router.push("/sign-up")
     }
 
-    return (<div>
-        <h1>Login</h1>
+    return (
+        <div className="auth-page">
+            <form className="auth-card" onSubmit={(e) => { e.preventDefault(); handleLogin(); }}>
+                <h1 className="auth-title">Welcome back</h1>
 
-        <label htmlFor="email">Email:</label>
-        <input 
-            id="email" 
-            type="text" 
-            autoComplete="off"
-            onChange={(e) => setEmail(e.target.value)}
-        />
+                <div className="auth-field">
+                    <label htmlFor="email">Email</label>
+                    <input
+                        id="email"
+                        type="text"
+                        autoComplete="off"
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                </div>
 
-        <div></div>
+                <div className="auth-field">
+                    <label htmlFor="password">Password</label>
+                    <input
+                        id="password"
+                        type="password"
+                        autoComplete="off"
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                </div>
 
-        <label htmlFor="password">Password:</label>
-        <input 
-            id="password" 
-            type="password" 
-            autoComplete="off"
-            onChange={(e) => setPassword(e.target.value)}
-        />
+                <button type="submit" className="auth-submit" disabled={loading}>
+                    {loading ? "Logging in..." : "Log in"}
+                </button>
 
-        <div></div>
-
-        <button onClick={handleLogin} disabled={loading}>
-            {loading ? "Logging in..." : "login"}
-        </button>
-
-        <button onClick={handleSignUp} disabled={loading}>
-            SignUp
-        </button>
-    </div>)
+                <button
+                    type="button"
+                    className="auth-secondary"
+                    onClick={handleSignUp}
+                    disabled={loading}
+                >
+                    Don't have an account? Sign up
+                </button>
+            </form>
+        </div>
+    )
 }
